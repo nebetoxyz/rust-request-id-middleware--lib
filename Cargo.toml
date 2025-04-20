@@ -1,0 +1,20 @@
+[package]
+name = "[TODO_LIB_PACKAGE_NAME]"
+version = "0.1.0"
+authors = ["Nebeto <contact@nebeto.xyz>"]
+edition = "2024"
+description = "[TODO_LIB_DESCRIPTION]"
+readme = "README.md"
+repository = "https://github.com/nebetoxyz/[TODO_ACTION_REPOSITORY_ID]"
+license-file = "LICENSE.md"
+keywords = []
+categories = ["web-programming"]
+exclude = [".github/", ".vscode/", ".gitignore"]
+
+[lib]
+path = "src/lib.rs"
+test = true
+doctest = true
+bench = false
+doc = true
+crate-type = ["lib"]

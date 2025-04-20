@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "waderyan.gitblame",
+        "GitHub.vscode-pull-request-github",
+        "GitHub.vscode-github-actions",
+        "GitHub.vscode-codeql",
+        "esbenp.prettier-vscode",
+        "rust-lang.rust-analyzer"
+    ]
+}

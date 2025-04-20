@@ -1,0 +1,14 @@
+.github/ @nebetoxyz/admins
+
+.vscode/ @nebetoxyz/admins
+
+LICENCE.md @nebetoxyz/admins
+CONTRIBUTING.md @nebetoxyz/admins
+SECURITY.md @nebetoxyz/admins
+FUNDING.yml @nebetoxyz/admins
+README.md @nebetoxyz/developers @nebetoxyz/admins
+
+src/ @nebetoxyz/developers 
+Cargo.* @nebetoxyz/admins
+
+.gitignore @nebetoxyz/developers @nebetoxyz/admins

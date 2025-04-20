@@ -1,0 +1,72 @@
+version: 2
+
+updates:
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    target-branch: main
+    assignees:
+      - "nebetoxyz/developers"
+    reviewers:
+      - "nebetoxyz/admins"
+      - "nebetoxyz/developers"
+    labels:
+      - "dependencies"
+      - "lib"
+    groups:
+      security:
+        applies-to: security-updates
+        dependency-type: production
+        update-types:
+          - "minor"
+          - "patch"
+      high:
+        applies-to: version-updates
+        dependency-type: production
+        update-types:
+          - "minor"
+          - "patch"
+      medium:
+        applies-to: version-updates
+        dependency-type: development
+        update-types:
+          - "minor"
+          - "patch"
+      low:
+        applies-to: version-updates
+        update-types:
+          - "major"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    target-branch: main
+    assignees:
+      - "nebetoxyz/developers"
+    reviewers:
+      - "nebetoxyz/admins"
+      - "nebetoxyz/developers"
+    labels:
+      - "dependencies"
+      - "ci"
+    groups:
+      medium:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+      low:
+        applies-to: version-updates
+        update-types:
+          - "major"

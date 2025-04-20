@@ -1,0 +1,62 @@
+name: Develop
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/**
+      - fix/**
+      - docs/**
+      - ci/**
+      - chore/**
+      - test/**
+      - perf/**
+      - refactor/**
+      - revert/**
+      - style/**
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: develop-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    name: Create a Pull Request
+    steps:
+      - id: checkout-code
+        name: Checkout code
+        uses: actions/checkout@v4.2.2
+      - id: create-or-get-existing-draft-pull-request
+        name: Create or get an existing draft Pull Request on Github
+        uses: nebetoxyz/create-pull-request--action@v1.14.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          assignees: ${{ github.actor }}
+  check:
+    runs-on: ubuntu-latest
+    name: Check
+    needs: create-pull-request
+    strategy:
+      matrix:
+        command: ["clippy", "test", "check --locked"]
+        include:
+          - component: clippy
+            command: clippy
+    steps:
+      - id: checkout-code
+        name: Checkout code
+        uses: actions/checkout@v4.2.2
+      - id: setup-rust
+        name: Setup Rust
+        uses: nebetoxyz/setup-rust--action@v1.2.0
+        with:
+          cache: cargo
+          components: ${{ matrix.component }}
+      - id: check-code
+        name: Check code via "cargo ${{ matrix.command }}"
+        run: cargo ${{ matrix.command }}

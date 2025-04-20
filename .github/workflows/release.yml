@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: Release
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      pr: ${{ steps.release.outputs.pr }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - id: release
+        name: Release
+        uses: googleapis/release-please-action@v4.2.0
+        with:
+          release-type: rust
+  build-publish:
+    runs-on: ubuntu-latest
+    name: Build & publish
+    needs: release
+    if: ${{ needs.release.outputs.release_created }}
+    env:
+      CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+    steps:
+      - id: checkout-code
+        uses: actions/checkout@v4.2.2
+      - id: setup-rust
+        uses: nebetoxyz/setup-rust--action@v1.2.0
+        with:
+          cache: cargo
+      - id: build-code
+        name: Build code
+        run: cargo build --release --timings
+      - id: publish-code
+        name: Publish code on crates.io
+        run: cargo publish

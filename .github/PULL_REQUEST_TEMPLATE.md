@@ -1,0 +1,3 @@
+- [ ] I have performed a self-review of my code ;
+- [ ] I have updated dependencies in the `Cargo.lock` via the command `cargo update` ;
+- [ ] **If** it's a core feature, I have documentated it in the [README.md](../README.md).
