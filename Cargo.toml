@@ -1,11 +1,11 @@
 [package]
-name = "[TODO_LIB_PACKAGE_NAME]"
+name = "request_id_middleware"
 version = "0.1.0"
 authors = ["Nebeto <contact@nebeto.xyz>"]
 edition = "2024"
-description = "[TODO_LIB_DESCRIPTION]"
+description = "Custom extractor for Rust Axum to extract the request id from an HTTP header x-request-id."
 readme = "README.md"
-repository = "https://github.com/nebetoxyz/[TODO_ACTION_REPOSITORY_ID]"
+repository = "https://github.com/nebetoxyz/rust-request-id-middleware--lib"
 license-file = "LICENSE.md"
 keywords = []
 categories = ["web-programming"]
@@ -18,3 +18,8 @@ doctest = true
 bench = false
 doc = true
 crate-type = ["lib"]
+
+[dependencies]
+axum = "0.8.3"
+tokio = "1.44.2"
+uuid = { version = "1.16.0", features = ["v7"] }
