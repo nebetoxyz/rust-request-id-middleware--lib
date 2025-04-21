@@ -1,13 +1,13 @@
 # Rust Axum Middleware - Extract Request ID from Header
 
-Custom extractor for Rust Axum to extract the request id from an HTTP header `X-Request-Id`.
-Works **ONLY** with [Rust](https://www.rust-lang.org/).
+Custom extractor for [Rust](https://www.rust-lang.org/) [Axum](https://docs.rs/axum/latest/axum/) to extract the request id from an HTTP header `X-Request-Id`.
+Works **ONLY** with [Rust](https://www.rust-lang.org/) [Axum](https://docs.rs/axum/latest/axum/).
 
 ## Usage
 
 ```rust
 use axum::{routing::get, Router};
-use request-id_middleware::ExtractRequestId;
+use request_id_middleware::ExtractRequestId;
 
 async fn handler(ExtractRequestId(request_id): ExtractRequestId) {
     println!("Request Id: {}", request_id);
