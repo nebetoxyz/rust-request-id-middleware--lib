@@ -7,7 +7,7 @@ description = "Custom extractor for Rust Axum to extract the request id from an 
 readme = "README.md"
 repository = "https://github.com/nebetoxyz/rust-request-id-middleware--lib"
 license-file = "LICENSE.md"
-keywords = []
+keywords = ["middleware", "header", "x-request-id"]
 categories = ["web-programming"]
 exclude = [".github/", ".vscode/", ".gitignore"]
 
