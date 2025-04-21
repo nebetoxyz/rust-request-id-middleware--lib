@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/nebetoxyz/rust-request-id-middleware--lib/compare/v0.1.0...v0.2.0) (2025-04-21)
+
+
+### Features
+
+* add keywords ([e58c985](https://github.com/nebetoxyz/rust-request-id-middleware--lib/commit/e58c9853d1b4a5f68a7ed6ca56db611df1a517f8))
+
 ## 0.1.0 (2025-04-21)
 
 
