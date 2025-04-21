@@ -1,6 +1,6 @@
 [package]
 name = "request_id_middleware"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Nebeto <contact@nebeto.xyz>"]
 edition = "2024"
 description = "Custom extractor for Rust Axum to extract the request id from an HTTP header x-request-id."
