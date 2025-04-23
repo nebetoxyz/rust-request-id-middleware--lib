@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/nebetoxyz/rust-request-id-middleware--lib/compare/v0.3.0...v0.3.1) (2025-04-23)
+
+
+### Bug Fixes
+
+* minor changes ([#5](https://github.com/nebetoxyz/rust-request-id-middleware--lib/issues/5)) ([231f25c](https://github.com/nebetoxyz/rust-request-id-middleware--lib/commit/231f25cb0e30442a083d57b22ebf332a711869cd))
+
 ## [0.3.0](https://github.com/nebetoxyz/rust-request-id-middleware--lib/compare/v0.2.0...v0.3.0) (2025-04-21)
 
 
