@@ -10,7 +10,7 @@ use axum::{routing::get, Router};
 use request_id_middleware::ExtractRequestId;
 
 async fn handler(ExtractRequestId(request_id): ExtractRequestId) {
-    println!("Request Id: {}", request_id);
+    println!("Request Id: {:?}", request_id);
 }
 
 let app = Router::<()>::new().route("/foo", get(handler));
@@ -45,7 +45,7 @@ Will give for all `0196583c-4d2a-7087-9beb-6214d18ec924`.
 curl http://api.nebeto.xyz/foo
 ```
 
-Will give by default a newly generated UUID **v7** e.g. `0196583c-4d2a-7087-9beb-6214d18ec924`.
+Will give by default a newly generated **UUID v7** e.g. `0196583c-4d2a-7087-9beb-6214d18ec924`.
 
 ## Contact
 

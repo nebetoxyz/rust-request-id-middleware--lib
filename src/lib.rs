@@ -2,7 +2,8 @@ use axum::{
     extract::FromRequestParts,
     http::{StatusCode, request::Parts},
 };
-use uuid::Uuid;
+use log::error;
+use uuid::{Uuid, Version};
 
 /// This is a custom extractor for Axum that extracts the request id, via the `X-Request-Id` header.
 /// If the `X-Request-Id` header is present and it's a valid UUID v7, it returns it.
@@ -26,7 +27,7 @@ use uuid::Uuid;
 /// use request_id_middleware::ExtractRequestId;
 ///
 /// async fn handler(ExtractRequestId(request_id): ExtractRequestId) {
-///     println!("Request Id: {}", request_id);
+///     println!("Request Id: {:?}", request_id);
 /// }
 ///
 /// let app = Router::<()>::new().route("/foo", get(handler));
@@ -34,13 +35,13 @@ use uuid::Uuid;
 #[derive(Debug, Clone)]
 pub struct ExtractRequestId(pub String);
 
-const HEADER_X_REQUEST_ID: &str = "x-request-id";
+const HEADER_X_REQUEST_ID: &str = "X-Request-Id";
 
 impl<S> FromRequestParts<S> for ExtractRequestId
 where
     S: Send + Sync,
 {
-    type Rejection = (StatusCode, &'static str);
+    type Rejection = (StatusCode, String);
 
     async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self, Self::Rejection> {
         let request_id = parts.headers.get(HEADER_X_REQUEST_ID);
@@ -51,16 +52,29 @@ where
                 let parsed_request_id = Uuid::try_parse(request_id.as_str());
 
                 if parsed_request_id.is_err() {
+                    error!(
+                        "[{}] Failed to parse UUID due to : {:?}",
+                        HEADER_X_REQUEST_ID,
+                        parsed_request_id.err().unwrap()
+                    );
+
                     return Err((
                         StatusCode::BAD_REQUEST,
-                        "Invalid X-Request-Id : Not a valid UUID",
+                        format!("Invalid {} : Not a valid UUID", HEADER_X_REQUEST_ID),
                     ));
                 }
 
-                if parsed_request_id.unwrap().get_version_num() != 7 {
+                let request_id_version = parsed_request_id.unwrap().get_version().unwrap();
+
+                if request_id_version != Version::SortRand {
+                    error!(
+                        "[{}] Failed to validate UUID due to : Version is {:?}",
+                        HEADER_X_REQUEST_ID, request_id_version
+                    );
+
                     return Err((
                         StatusCode::BAD_REQUEST,
-                        "Invalid X-Request-Id : Not an UUID v7",
+                        format!("Invalid {} : Not an UUID v7", HEADER_X_REQUEST_ID),
                     ));
                 }
 
@@ -73,13 +87,12 @@ where
 
 #[cfg(test)]
 mod tests {
+    use crate::{ExtractRequestId, HEADER_X_REQUEST_ID};
     use axum::{
         body::Body,
         extract::FromRequestParts,
         http::{Request, StatusCode},
     };
-
-    use crate::ExtractRequestId;
 
     #[tokio::test]
     async fn test_lib_extract_request_id_with_header_ok_one() {
@@ -94,12 +107,12 @@ mod tests {
 
         match request_id {
             Ok(request_id) => assert_eq!(request_id.0, "01965864-f8ab-7eb8-912a-a2c999ab110e"),
-            Err(_) => assert!(false, "Expected a valid request id"),
+            Err(err) => assert!(false, "Expected a valid request id : {:?}", err),
         }
     }
 
     #[tokio::test]
-    async fn test_lib_extract_version_with_header_ok_two() {
+    async fn test_lib_extract_request_id_with_header_ok_two() {
         let request = Request::builder()
             .header("X-Request-Id", " 01965864-f8ab-7Eb8-912a-a2c999ab110e ")
             .body(Body::empty())
@@ -111,7 +124,7 @@ mod tests {
 
         match request_id {
             Ok(request_id) => assert_eq!(request_id.0, "01965864-f8ab-7eb8-912a-a2c999ab110e"),
-            Err(_) => assert!(false, "Expected a valid request id"),
+            Err(err) => assert!(false, "Expected a valid request id : {:?}", err),
         }
     }
 
@@ -128,10 +141,13 @@ mod tests {
 
         match request_id {
             Ok(_) => assert!(false, "Expected an error"),
-            Err(err) => {
-                assert_eq!(err.0, StatusCode::BAD_REQUEST);
-                assert_eq!(err.1, "Invalid X-Request-Id : Not a valid UUID");
-            }
+            Err(err) => assert_eq!(
+                err,
+                (
+                    StatusCode::BAD_REQUEST,
+                    format!("Invalid {} : Not a valid UUID", HEADER_X_REQUEST_ID)
+                )
+            ),
         }
     }
 
@@ -148,10 +164,13 @@ mod tests {
 
         match request_id {
             Ok(_) => assert!(false, "Expected an error"),
-            Err(err) => {
-                assert_eq!(err.0, StatusCode::BAD_REQUEST);
-                assert_eq!(err.1, "Invalid X-Request-Id : Not an UUID v7");
-            }
+            Err(err) => assert_eq!(
+                err,
+                (
+                    StatusCode::BAD_REQUEST,
+                    format!("Invalid {} : Not an UUID v7", HEADER_X_REQUEST_ID)
+                )
+            ),
         }
     }
 
@@ -165,7 +184,7 @@ mod tests {
 
         match request_id {
             Ok(_) => assert!(true),
-            Err(_) => assert!(false, "Expected a valid request id"),
+            Err(err) => assert!(false, "Expected a valid request id : {:?}", err),
         }
     }
 }

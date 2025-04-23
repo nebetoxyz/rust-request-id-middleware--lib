@@ -369,6 +369,7 @@ name = "request_id_middleware"
 version = "0.3.0"
 dependencies = [
  "axum",
+ "log",
  "tokio",
  "uuid",
 ]

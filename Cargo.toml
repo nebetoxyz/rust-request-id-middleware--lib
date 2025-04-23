@@ -3,11 +3,11 @@ name = "request_id_middleware"
 version = "0.3.0"
 authors = ["Nebeto <contact@nebeto.xyz>"]
 edition = "2024"
-description = "Custom extractor for Rust Axum to extract the request id from an HTTP header x-request-id."
+description = "Custom extractor for Rust Axum to extract the request id from an HTTP header X-Request-Id."
 readme = "README.md"
 repository = "https://github.com/nebetoxyz/rust-request-id-middleware--lib"
 license-file = "LICENSE.md"
-keywords = ["middleware", "header", "x-request-id"]
+keywords = ["middleware", "header"]
 categories = ["web-programming"]
 exclude = [".github/", ".vscode/", ".gitignore"]
 
@@ -21,5 +21,6 @@ crate-type = ["lib"]
 
 [dependencies]
 axum = "0.8.3"
+log = "0.4.27"
 tokio = "1.44.2"
 uuid = { version = "1.16.0", features = ["v7"] }
