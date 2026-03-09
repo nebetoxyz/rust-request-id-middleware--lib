@@ -20,7 +20,7 @@ doc = true
 crate-type = ["lib"]
 
 [dependencies]
-axum = "0.8.3"
-log = "0.4.27"
-tokio = "1.44.2"
-uuid = { version = "1.16.0", features = ["v7"] }
+axum = "0.8.8"
+log = "0.4.29"
+tokio = "1.50.0"
+uuid = { version = "1.22.0", features = ["v7"] }
