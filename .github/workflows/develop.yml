@@ -30,7 +30,7 @@ jobs:
     steps:
       - id: checkout-code
         name: Checkout code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v6.0.2
       - id: create-or-get-existing-draft-pull-request
         name: Create or get an existing draft Pull Request on Github
         uses: nebetoxyz/create-pull-request--action@v1.14.0
@@ -50,7 +50,7 @@ jobs:
     steps:
       - id: checkout-code
         name: Checkout code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v6.0.2
       - id: setup-rust
         name: Setup Rust
         uses: nebetoxyz/setup-rust--action@v1.2.0
